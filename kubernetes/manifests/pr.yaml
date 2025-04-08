@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: example
+spec:
+  groups:
+    - name: example
+      rules:
+        - alert: ExampleHighQueueAlert
+          expr: example_queue > 10
+          annotations:
+            message: High number of messages in queue on {{ $labels.pod }}.
+          labels:
+            severity: warn
