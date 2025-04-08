@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"time"
 
+	"example/version"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
-
-var Version = "master"
 
 var info = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
@@ -46,7 +46,7 @@ func main() {
 
 	http.Handle("/metrics", promhttp.Handler())
 
-	info.WithLabelValues(Version, time.Now().Format(time.RFC3339)).Set(1)
+	info.WithLabelValues(version.Version, time.Now().Format(time.RFC3339)).Set(1)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		counter_requests.WithLabelValues(r.Method, r.URL.Path, "200").Inc()
@@ -80,6 +80,6 @@ func main() {
 		fmt.Fprintf(w, "404 Not Found\n")
 	})
 
-	fmt.Println("Listen on 0.0.0.0:8000, see http://127.0.0.1:8000")
+	fmt.Printf("Version %s, listen on 0.0.0.0:8000, see http://127.0.0.1:8000\n", version.Version)
 	http.ListenAndServe(":8000", nil)
 }
