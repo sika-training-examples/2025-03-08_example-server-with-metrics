@@ -3,9 +3,21 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+)
+
+var Version = "master"
+
+var info = prometheus.NewGaugeVec(
+	prometheus.GaugeOpts{
+		Namespace: "example",
+		Name:      "info",
+		Help:      "Build and runtime info",
+	},
+	[]string{"version", "started_at"},
 )
 
 var counter_requests = prometheus.NewCounterVec(
@@ -28,10 +40,13 @@ var queue = prometheus.NewGauge(
 var queueInt int
 
 func main() {
+	prometheus.MustRegister(info)
 	prometheus.MustRegister(counter_requests)
 	prometheus.MustRegister(queue)
 
 	http.Handle("/metrics", promhttp.Handler())
+
+	info.WithLabelValues(Version, time.Now().Format(time.RFC3339)).Set(1)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		counter_requests.WithLabelValues(r.Method, r.URL.Path, "200").Inc()
