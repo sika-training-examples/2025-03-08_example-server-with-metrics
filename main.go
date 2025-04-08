@@ -8,12 +8,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var counter_requests = prometheus.NewCounter(
+var counter_requests = prometheus.NewCounterVec(
 	prometheus.CounterOpts{
 		Namespace: "example",
 		Name:      "requests",
 		Help:      "Number of requests",
-	})
+	},
+	[]string{"path"},
+)
 
 func main() {
 	prometheus.MustRegister(counter_requests)
@@ -21,7 +23,7 @@ func main() {
 	http.Handle("/metrics", promhttp.Handler())
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		counter_requests.Inc()
+		counter_requests.WithLabelValues(r.URL.Path).Inc()
 		fmt.Fprintf(w, "Hello World!\n")
 	})
 
