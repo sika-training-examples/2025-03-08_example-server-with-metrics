@@ -57,7 +57,7 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 6,
+            "h": 5,
             "w": 24,
             "x": 0,
             "y": 0
@@ -92,6 +92,79 @@ data:
           ],
           "title": "Queue Lengths",
           "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 5
+          },
+          "id": 9,
+          "options": {
+            "displayMode": "gradient",
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "maxVizHeight": 300,
+            "minVizHeight": 16,
+            "minVizWidth": 8,
+            "namePlacement": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "sizing": "auto",
+            "valueMode": "color"
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "100 * (sum(example_request_duration_seconds_bucket{}) by (le) / ignoring (le) group_left sum(example_request_duration_seconds_count{}))",
+              "format": "heatmap",
+              "legendFormat": "{{le}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Request Heatmap (%)",
+          "type": "bargauge"
         },
         {
           "datasource": {
@@ -156,10 +229,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 12,
+            "h": 8,
             "w": 12,
             "x": 0,
-            "y": 6
+            "y": 11
           },
           "id": 5,
           "options": {
@@ -256,10 +329,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 12,
+            "h": 8,
             "w": 12,
             "x": 12,
-            "y": 6
+            "y": 11
           },
           "id": 6,
           "options": {
@@ -356,10 +429,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 7,
             "w": 12,
             "x": 0,
-            "y": 18
+            "y": 19
           },
           "id": 7,
           "options": {
@@ -455,10 +528,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 7,
             "w": 12,
             "x": 12,
-            "y": 18
+            "y": 19
           },
           "id": 2,
           "options": {
@@ -489,7 +562,7 @@ data:
               "refId": "A"
             }
           ],
-          "title": "fdgfdg",
+          "title": "[counters] sum(example_requests) by (status_code)",
           "type": "timeseries"
         }
       ],
@@ -508,6 +581,6 @@ data:
       "timezone": "",
       "title": "Example",
       "uid": "example",
-      "version": 1,
+      "version": 2,
       "weekStart": ""
     }
