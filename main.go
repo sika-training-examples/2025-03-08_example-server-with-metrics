@@ -113,8 +113,13 @@ func main() {
 		request_duration.WithLabelValues(r.Method, r.URL.Path, "200").Observe(float64((1500 * time.Millisecond)))
 	})
 
-	fmt.Printf("Version %s (%s), listen on 0.0.0.0:8000, see http://127.0.0.1:8000\n", version.Version, hostname)
-	http.ListenAndServe(":8000", nil)
+	port := "8000"
+	portEnv := os.Getenv("PORT")
+	if portEnv != "" {
+		port = portEnv
+	}
+	fmt.Printf("Version %s (%s), listen on 0.0.0.0:%s, see http://127.0.0.1:%s\n", version.Version, hostname, port, port)
+	http.ListenAndServe(":"+port, nil)
 }
 
 func randomSleep() {
