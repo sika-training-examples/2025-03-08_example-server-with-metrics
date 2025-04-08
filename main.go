@@ -38,7 +38,7 @@ var request_duration = prometheus.NewHistogramVec(
 		Help:      "Request duration in seconds",
 		Buckets:   []float64{.01, .05, .1, .2, .5, 1, 2, 5},
 	},
-	[]string{"status_code", "path", "method"},
+	[]string{"method", "path", "status_code"},
 )
 
 var queue = prometheus.NewGauge(
