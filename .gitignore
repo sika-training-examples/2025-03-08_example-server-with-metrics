@@ -16,3 +16,7 @@
 *.local.yaml
 *.local.json
 *.local.txt
+
+# Project
+/example
+/example.exe
