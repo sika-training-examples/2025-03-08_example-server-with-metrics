@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: example
-          image: ttl.sh/ondrejsika/example
+          image: ttl.sh/ondrejsika/example3
           imagePullPolicy: Always
           ports:
             - name: http
