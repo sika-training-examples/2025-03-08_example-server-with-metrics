@@ -14,7 +14,7 @@ var counter_requests = prometheus.NewCounterVec(
 		Name:      "requests",
 		Help:      "Number of requests",
 	},
-	[]string{"path"},
+	[]string{"method", "path", "status_code"},
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 	http.Handle("/metrics", promhttp.Handler())
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		counter_requests.WithLabelValues(r.URL.Path).Inc()
+		counter_requests.WithLabelValues(r.Method, r.URL.Path, "200").Inc()
 		fmt.Fprintf(w, "Hello World!\n")
 	})
 
