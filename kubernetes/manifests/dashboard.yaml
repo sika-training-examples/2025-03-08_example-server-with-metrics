@@ -26,9 +26,73 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 28,
+      "id": 29,
       "links": [],
       "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 10
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 8,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "example_queue",
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Queue Lengths",
+          "type": "stat"
+        },
         {
           "datasource": {
             "default": true,
@@ -95,7 +159,7 @@ data:
             "h": 12,
             "w": 12,
             "x": 0,
-            "y": 0
+            "y": 6
           },
           "id": 5,
           "options": {
@@ -195,7 +259,7 @@ data:
             "h": 12,
             "w": 12,
             "x": 12,
-            "y": 0
+            "y": 6
           },
           "id": 6,
           "options": {
@@ -295,7 +359,7 @@ data:
             "h": 11,
             "w": 12,
             "x": 0,
-            "y": 12
+            "y": 18
           },
           "id": 7,
           "options": {
@@ -394,7 +458,7 @@ data:
             "h": 11,
             "w": 12,
             "x": 12,
-            "y": 12
+            "y": 18
           },
           "id": 2,
           "options": {
@@ -425,7 +489,7 @@ data:
               "refId": "A"
             }
           ],
-          "title": "[counters] sum(example_requests) by (status_code)",
+          "title": "fdgfdg",
           "type": "timeseries"
         }
       ],
@@ -444,6 +508,6 @@ data:
       "timezone": "",
       "title": "Example",
       "uid": "example",
-      "version": 6,
+      "version": 1,
       "weekStart": ""
     }
