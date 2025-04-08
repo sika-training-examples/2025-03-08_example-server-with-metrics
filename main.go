@@ -107,6 +107,12 @@ func main() {
 		request_duration.WithLabelValues(r.Method, r.URL.Path, "404").Observe(time.Since(started).Seconds())
 	})
 
+	http.HandleFunc("/fake-slow", func(w http.ResponseWriter, r *http.Request) {
+		counter_requests.WithLabelValues(r.Method, r.URL.Path, "200").Inc()
+		fmt.Fprintf(w, "Slow\n")
+		request_duration.WithLabelValues(r.Method, r.URL.Path, "200").Observe(float64((1500 * time.Millisecond)))
+	})
+
 	fmt.Printf("Version %s (%s), listen on 0.0.0.0:8000, see http://127.0.0.1:8000\n", version.Version, hostname)
 	http.ListenAndServe(":8000", nil)
 }
