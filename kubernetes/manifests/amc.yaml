@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: example
+  labels:
+    alertmanager: config
+spec:
+  route:
+    receiver: "null"
+    routes:
+      - receiver: webhook-ExampleHighQueueAlert
+        matchers:
+          - name: alertname
+            value: ExampleHighQueueAlert
+  receivers:
+    - name: "null"
+    - name: webhook-ExampleHighQueueAlert
+      webhookConfigs:
+        - url: 'http://lab0.sikademo.com:9999/ExampleHighQueueAlert'
