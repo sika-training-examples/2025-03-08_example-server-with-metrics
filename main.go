@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 
 	"example/version"
@@ -18,7 +19,7 @@ var info = prometheus.NewGaugeVec(
 		Name:      "info",
 		Help:      "Build and runtime info",
 	},
-	[]string{"version", "started_at"},
+	[]string{"version", "started_at", "hostname"},
 )
 
 var counter_requests = prometheus.NewCounterVec(
@@ -58,7 +59,9 @@ func main() {
 
 	http.Handle("/metrics", promhttp.Handler())
 
-	info.WithLabelValues(version.Version, time.Now().Format(time.RFC3339)).Set(1)
+	var hostname, _ = os.Hostname()
+
+	info.WithLabelValues(version.Version, time.Now().Format(time.RFC3339), hostname).Set(1)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		started := time.Now()
@@ -104,7 +107,7 @@ func main() {
 		request_duration.WithLabelValues(r.Method, r.URL.Path, "404").Observe(time.Since(started).Seconds())
 	})
 
-	fmt.Printf("Version %s, listen on 0.0.0.0:8000, see http://127.0.0.1:8000\n", version.Version)
+	fmt.Printf("Version %s (%s), listen on 0.0.0.0:8000, see http://127.0.0.1:8000\n", version.Version, hostname)
 	http.ListenAndServe(":8000", nil)
 }
 
